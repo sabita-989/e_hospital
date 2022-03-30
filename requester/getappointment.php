@@ -31,6 +31,7 @@
             $status="0";
             date_default_timezone_set('Asia/Kathmandu');
             $appointment_time = date('h:i:s a', time());
+
             if(isset($_POST['assign'])){
                 $_SESSION['patient_name']=$name;
                 $_SESSION['gender']=$gender;
@@ -73,7 +74,7 @@
         <h5 class="text-center">Appointment Details</h5>
         <div class="form-group">
             <label for="Name">Patient's Name</label>
-            <input type="text" class="form-control" id="Name" name="name" >
+            <input type="text" pattern="[a-zA-Z\s]+" class="form-control" id="Name" name="name" placeholder="Text only">
         </div>
 
         <div class="group">
@@ -212,12 +213,13 @@ $id=$_GET['id'];
         <div class="row">
             <div class="form-group col-md-6">
                 <label for="Age">Patient's Age</label>
-                <input type="text" class="form-control" id="Age" name="age" >
+                <input type="number" min=1 class="form-control" id="Age" name="age" >
             </div> 
 
             <div class="form-group col-md-6">
                 <label for="Phone">Phone</label>
-                <input type="text" class="form-control" id="Phone" name="phone">
+                <input type="text" pattern="[0-9]{10}" class="form-control" id="Phone" name="phone" placeholder="9820745445">
+               
             </div>
 
           

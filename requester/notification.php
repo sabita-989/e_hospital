@@ -17,14 +17,19 @@
 
 <div class="container"><br>
 <?php
-
+$reschedule_delete_flag=0;
 $user_id= $_SESSION['u_id'];
 //echo $user_id;
 $sql ="SELECT * FROM appointment_db WHERE r_login_id=$user_id ORDER BY appointment_id desc";
 $result = $conn->query($sql);
 if($result->num_rows > 0){
    while($row=$result-> fetch_assoc()){
-        ?>
+    $sqlp ="select ammount from payment_db where appointment_id=".$row['appointment_id'];
+    $resultp = $conn->query($sqlp);
+    $rowp=$resultp-> fetch_assoc();
+            if(isset($rowp['ammount'])=='100') { $payment_flag=1;
+            }else {$payment_flag=0; }?>
+        
         
 <div class="row">
 <div class="card col-md-11">
@@ -32,15 +37,22 @@ if($result->num_rows > 0){
     Appointment #<?php echo $row['appointment_id']; ?>
     <div class="float-right">
       <form action="" method="POST">
-      <?php if($row['a_status']==0  && $row['hit_miss']==NULL){?>
+      <?php if($row['a_status']==0  && $row['hit_miss']==NULL){?><!--  only appointment request -->
         <a href="nolockdelete.php?id=<?php echo $row['appointment_id']; ?>" class="btn btn-danger" name="delete" 
         onclick="return confirm('Are you sure you want to cancel this appointment? \nRefunded By deducting 10% from yor payment if payment is done.');"
          value="<?php echo $row["appointment_id"]; ?>">Cancel X</a>
-        <?php }else if($row['a_status']==0 && $row['hit_miss']!=NULL){ ?>
+         <?php } else if($row['a_status']==0 && $row['hit_miss']!=NULL && $payment_flag==1){ ?>
+          <!--  missed appointment with payment -->
+          <a href="scheduledelete.php?id=<?php echo $row['appointment_id']; ?>" class="btn btn-danger" name="delete" 
+          onclick="return confirm('Are you sure you want to cancel this appointment? \nRefunded 100%. ');"
+           value="<?php echo $row["appointment_id"]; ?>">Cancel X</a> 
+        <?php }else if($row['a_status']==0 && $row['hit_miss']!=NULL ){ ?><!--  missed appointment w/o payment -->
         <a href="nolockdelete.php?id=<?php echo $row['appointment_id']; ?>" class="btn btn-danger" name="delete" 
-        onclick="return confirm('Are you sure you want to cancel this appointment? \nRefunded if payment is done. ');"
+        onclick="return confirm('Are you sure you want to cancel this appointment?');"
          value="<?php echo $row["appointment_id"]; ?>">Cancel X</a> 
-        <?php }else{ ?>
+        
+          <?php }else{ ?>
+            <!--  hit appointment w/o checking payment  -->
           <a href="lockdelete.php?id=<?php echo $row['appointment_id']; ?>" class="btn btn-danger" name="delete" 
         onclick="return confirm('Are you sure you want to cancel this appointment? \nRefunded By deducting 20% from yor payment if payment is done. ');"
          value="<?php echo $row["appointment_id"]; ?>">Cancel X</a> <?php } ?>
@@ -49,7 +61,9 @@ if($result->num_rows > 0){
   </div>
   <div class="card-body">
     <?php 
-  if($row['a_status']==0 && $row['hit_miss']!=NULL){?>
+  if($row['a_status']==0 && $row['hit_miss']!=NULL){
+
+    ?>
     <p class="card-text"> Your Appointment was missed on the given shift. Please select any other timeslots. </p>
     <?php
     $sqlp ="select ammount from payment_db where appointment_id=".$row['appointment_id'];
@@ -57,6 +71,7 @@ if($result->num_rows > 0){
             $rowp=$resultp-> fetch_assoc();
                     if(isset($rowp['ammount'])=='100'){?>
     <a href="reschedule.php?aid=<?php echo $row['appointment_id'];?>&id=<?php echo $row['doctor_id'];?>" class="btn btn-primary print "><i class="fas fa-calendar"></i>Re-schedule</a>
+    <!-- <a class="btn btn-danger print" href="scheduledelete.php?did=<?php echo $row['appointment_id'];?>">Cancel X</a> -->
     <?php }}else{  ?>
   
     <h5 class="card-title">Patient Name: &nbsp;<?php  echo $row['p_name']; ?></h5>

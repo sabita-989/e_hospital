@@ -59,7 +59,7 @@ $doctor_name = $rows['d_name'];
 $sqlp ="select ammount from payment_db where appointment_id=".$row['appointment_id'];
 $resultp = $conn->query($sqlp);
 $rowp=$resultp-> fetch_assoc();
-        if($rowp['ammount']=='100'){
+        if(!empty($rowp['ammount'])&&$rowp['ammount']=='100'){
           $paymentStatus= "Paid";
         }
         else{

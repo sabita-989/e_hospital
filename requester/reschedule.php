@@ -16,7 +16,7 @@
     $aid=$_GET['aid'];
    
     if(empty($errors)){
-       if(($_POST['inputdate']=="")|| ($_POST['shift']=="")){
+       if(!isset($_POST['inputdate'])|| !isset($_POST['shift'])){
             $msg = '<div class="alert alert-warning col-sm-6 ml-5 mt-2" role="alert">Fill All Fields</div>';
         }else{ 
             $shift =  $_POST['shift'];

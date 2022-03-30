@@ -87,7 +87,7 @@ include('../dbconnection.php');
                                if($conn-> query($sql) == TRUE){    
                                 ?>
                                 confirm('Amount Rs.' + jsonData.amount / 100 + ' With Rs.' + jsonData.cashback + ' Cashback and transaction fee Rs. ' + jsonData.fee_amount / 100 + ' was Paid via ' + jsonData.type.name + ' of ' + jsonData.user.name);
-                                window.location.href='http://localhost/eHospital-master/requester/notification.php';
+                                window.location.href='http://localhost/e_hospital/requester/notification.php';
                             <?php } }else{ echo $sql."<br>".mysqli_error($conn); } ?>
                                 // let data = document.createElement('div')
                                 // data.setAttribute('class', 'alert alert-success')

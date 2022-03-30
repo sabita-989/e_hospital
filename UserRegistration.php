@@ -107,7 +107,7 @@ if(isset($_REQUEST['rSignUp'])){
                 <div class="form-group"> 
                     <i class="fas fa-user"></i>  
                     <label for="name" class="font-weight-bold pl-2">Full Name</label>
-                    <input type="text" class= "form-control" placeholder="Enter you Name" name="rName" id="rName">
+                    <input type="text" pattern="[a-zA-Z]+" class= "form-control" placeholder="Enter you Name" name="rName" id="rName">
                 </div>
 
                 <div class="form-group"> 
@@ -141,7 +141,7 @@ function validateForm() {
     var rpassword = document.forms["contactForm"]["rPassword"].value;
 
     if(rname == "" && remail == "" && rpassword ==""){
-        document.getElementById("errors").innerHTML = ("<p class='alert alert-danger'>Please fill all the field</p>");
+        document.getElementById("errors").innerHTML = ("<p class='alert alert-danger'>Please fill all the fields</p>");
         return false;
     } 
     if(rname == "" && remail == "" ){

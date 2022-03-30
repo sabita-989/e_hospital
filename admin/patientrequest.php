@@ -64,7 +64,7 @@ if(mysqli_num_rows($result) > 0){
        $resultp = $conn->query($sqlp);
        $rowp=$resultp-> fetch_assoc();
                if(isset($rowp['ammount'])=='100'){
-                 echo "Paid";
+                 echo "Paid"; 
                }
                else{
                  echo "Not Paid";
